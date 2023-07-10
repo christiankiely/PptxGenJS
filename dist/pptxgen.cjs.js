@@ -1,4 +1,4 @@
-/* PptxGenJS 3.13.0-beta.0 @ 2023-05-17T03:15:58.384Z */
+/* PptxGenJS 3.13.0-beta.1 @ 2023-07-10T04:49:11.348Z */
 'use strict';
 
 var JSZip = require('jszip');
@@ -3845,6 +3845,15 @@ function makeChartType(chartType, data, opts, valAxisId, catAxisId, isMultiTypeC
                         obj.labels[0].forEach(function (label, idx) { return (strXml += "<c:pt idx=\"".concat(idx, "\"><c:v>").concat(encodeXmlEntities(label), "</c:v></c:pt>")); });
                         strXml += '    </c:numCache>';
                         strXml += '  </c:numRef>';
+                    }
+                    else if (obj.labels.length === 1) {
+                        strXml += '  <c:strRef>';
+                        strXml += "    <c:f>Sheet1!$A$2:$".concat(getExcelColName(obj.labels.length), "$").concat(obj.labels[0].length + 1, "</c:f>");
+                        strXml += '    <c:strCache>';
+                        strXml += "      <c:ptCount val=\"".concat(obj.labels[0].length, "\"/>");
+                        obj.labels[0].forEach(function (label, idx) { return (strXml += "<c:pt idx=\"".concat(idx, "\"><c:v>").concat(encodeXmlEntities(label), "</c:v></c:pt>")); });
+                        strXml += '    </c:strCache>';
+                        strXml += '  </c:strRef>';
                     }
                     else {
                         strXml += '  <c:multiLvlStrRef>';
